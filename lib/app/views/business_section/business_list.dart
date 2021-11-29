@@ -78,13 +78,14 @@ class _BusinesslistState extends State<Businesslist> {
         business1.idBusiness,
         business1.nameBusiness,
         business1.addressBusiness,
-        business1.geolocationBusiness,
+        business1.latBusiness,
         business1.landlineBusiness,
         business1.phoneBusiness,
         business1.websiteBusiness,
         business1.categoryBusiness,
         business1.logoBusiness,
-        business1.photoBusiness
+        business1.photoBusiness,
+        business1.lonBusiness,
       ];
       business.add(
         Card(

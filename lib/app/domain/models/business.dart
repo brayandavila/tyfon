@@ -5,25 +5,27 @@ class Business {
   final String idBusiness;
   String nameBusiness;
   String addressBusiness;
-  String geolocationBusiness;
+  String latBusiness;
   String landlineBusiness;
   String phoneBusiness;
   String websiteBusiness;
   String categoryBusiness;
   String logoBusiness;
   String photoBusiness;
+  String lonBusiness;
 
   Business(
       this.idBusiness,
       this.nameBusiness,
       this.addressBusiness,
-      this.geolocationBusiness,
+      this.latBusiness,
       this.landlineBusiness,
       this.phoneBusiness,
       this.websiteBusiness,
       this.categoryBusiness,
       this.logoBusiness,
-      this.photoBusiness);
+      this.photoBusiness,
+      this.lonBusiness,);
 }
 
 const url =
@@ -40,13 +42,14 @@ Future<List<Business>> getBusiness() async {
         item["id_business"].toString(),
         item["name_business"].toString(),
         item["address_business"].toString(),
-        item["geolocation_business"].toString(),
+        item["lat_business"].toString(),
         item["landline_business"].toString(),
         item["phone_business"].toString(),
         item["website_business"].toString(),
         item["category_business"].toString(),
         item["logo_business"].toString(),
         item["photo_business"].toString(),
+        item["lon_business"].toString(),
       ));
     }
     return business;
@@ -78,13 +81,14 @@ Future<List<Business>> getBusinessforcategory(cat) async {
         item["id_business"].toString(),
         item["name_business"].toString(),
         item["address_business"].toString(),
-        item["geolocation_business"].toString(),
+        item["lat_business"].toString(),
         item["landline_business"].toString(),
         item["phone_business"].toString(),
         item["website_business"].toString(),
         item["category_business"].toString(),
         item["logo_business"].toString(),
         item["photo_business"].toString(),
+        item["lon_business"].toString(),
       ));
     }
     return business;

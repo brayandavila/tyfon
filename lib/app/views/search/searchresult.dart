@@ -176,13 +176,14 @@ class _SearchresultState extends State<Searchresult> {
                                   resultado2['id_business'],
                                   resultado2['name_business'],
                                   resultado2['address_business'],
-                                  resultado2['geolocation_business'],
+                                  resultado2['lat_business'],
                                   resultado2['landline_business'],
                                   resultado2['phone_business'],
                                   resultado2['website_business'],
                                   resultado2['category_business'],
                                   resultado2['logo_business'],
-                                  resultado2['photo_business']
+                                  resultado2['photo_business'],
+                                  resultado2['lon_business'],
                                 ];
                                 var logo = resultado2['logo_business'];
                                 return Card(

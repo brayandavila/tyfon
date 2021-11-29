@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/products.dart';
+import 'package:tyfon/app/views/business_section/viewlocation.dart';
 import 'package:tyfon/app/views/products_section/product_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -38,6 +39,8 @@ class _BusinessviewState extends State<Businessview> {
 
   @override
   Widget build(BuildContext context) {
+    var location = widget.idB[3];
+    var location2 = widget.idB[10];
     var web = widget.idB[6];
     var _url1 = '$web';
     var idBus = widget.idB[0];
@@ -90,6 +93,16 @@ class _BusinessviewState extends State<Businessview> {
                 ),
               ],
             ),
+          ),
+          TextButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Viewlocation(location, location2)));
+            }, 
+            child: const Text('Ver ubicación')
           ),
           Expanded(
             child: FutureBuilder(
