@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">550550941365-mcnaceaipluoneb19ken3afrkont7evd.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">550550941365</string>
+    <string name="google_api_key" translatable="false">AIzaSyDmKgf3PsddenGHu1hNdH3P7MZuuv1Jv-M</string>
+    <string name="google_app_id" translatable="false">1:550550941365:android:c9c0b11af72aa97f45d8fc</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDmKgf3PsddenGHu1hNdH3P7MZuuv1Jv-M</string>
+    <string name="google_storage_bucket" translatable="false">tyfonapp-72f7a.appspot.com</string>
+    <string name="project_id" translatable="false">tyfonapp-72f7a</string>
+</resources>

@@ -148,7 +148,7 @@ class _SearchState extends State<Search> {
                       ListTile(
                         title: Text(
                           'Categorías',
-                          style: TextStyle(color: Colors.white70, fontSize: 30),
+                          style: TextStyle(color: Colors.black, fontSize: 30),
                         ),
                         leading: Icon(
                           Icons.category,
@@ -179,7 +179,7 @@ class _SearchState extends State<Search> {
                       ListTile(
                         title: Text(
                           'Más cercanos',
-                          style: TextStyle(color: Colors.white70, fontSize: 30),
+                          style: TextStyle(color: Colors.black, fontSize: 30),
                         ),
                         leading: Icon(
                           Icons.location_on,

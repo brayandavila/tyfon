@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_shown_name
+
 import 'package:flutter/widgets.dart' show BuildContext, Container, Widget;
 import 'package:tyfon/app/views/business_section/business_view.dart';
 import 'package:tyfon/app/views/home/home_page.dart';

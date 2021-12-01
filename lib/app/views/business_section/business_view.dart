@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/products.dart';
@@ -17,7 +19,6 @@ class _BusinessviewState extends State<Businessview> {
   bool _hasCallSupport = false;
   Future<void>? _launched;
   String _phone = '';
-
   @override
   void initState() {
     super.initState();
@@ -58,8 +59,8 @@ class _BusinessviewState extends State<Businessview> {
           ),
         ],
         title: Text(
-          widget.idB[1],
-          style: const TextStyle(color: Colors.white70),
+          widget.idB[1] + ' | ' + widget.idB[7],
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
@@ -68,42 +69,37 @@ class _BusinessviewState extends State<Businessview> {
       ),
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 100,
-            child: ListView(
-              children: [
-                ListTile(
-                  title: Text(
-                    widget.idB[2],
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  subtitle: TextButton(
-                    child: const Text('Página web'),
-                    onPressed: _launchURL,
-                  ),
-                  leading: TextButton(
-                    onPressed: _hasCallSupport
-                        ? () => setState(() {
-                              _launched = _makePhoneCall(widget.idB[5]);
-                            })
-                        : null,
-                    child: const Icon(Icons.phone),
-                  ),
-                  trailing: Text(widget.idB[7]),
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              TextButton(
+                child: const Icon(Icons.language),
+                onPressed: _launchURL,
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Viewlocation(location, location2)));
+                }, 
+                child: const Icon(Icons.location_on)
+              ),
+              TextButton(
+                onPressed: _hasCallSupport
+                    ? () => setState(() {
+                          _launched = _makePhoneCall(widget.idB[5]);
+                        })
+                    : null,
+                child: const Icon(Icons.phone),
+              ),
+              Text(
+                widget.idB[2],
+                style: const TextStyle(color: Colors.black),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Viewlocation(location, location2)));
-            }, 
-            child: const Text('Ver ubicación')
-          ),
+          
           Expanded(
             child: FutureBuilder(
               future: getProductsBusiness('$idBus'),
@@ -132,7 +128,7 @@ class _BusinessviewState extends State<Businessview> {
                                     title: Text(
                                       resultado['name_products'],
                                       style: const TextStyle(
-                                          color: Colors.white70),
+                                          color: Colors.black),
                                     ),
                                     trailing: Text(
                                       price2,

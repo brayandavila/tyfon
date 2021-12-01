@@ -44,11 +44,11 @@ class _PayState extends State<Pay> {
                 ListTile(
                   title: Text(radioButtonItem,
                       style:
-                          const TextStyle(fontSize: 21, color: Colors.white70)),
+                          const TextStyle(fontSize: 21, color: Colors.black)),
                 ),
                 ListTile(
                   title: const Text('Recibe en casa',
-                      style: TextStyle(fontSize: 21, color: Colors.white70)),
+                      style: TextStyle(fontSize: 21, color: Colors.black)),
                   leading: Radio(
                     value: 1,
                     activeColor: const Color(0xffF4A53C),
@@ -63,7 +63,7 @@ class _PayState extends State<Pay> {
                 ),
                 ListTile(
                   title: const Text('Recoger en tienda',
-                      style: TextStyle(fontSize: 21, color: Colors.white70)),
+                      style: TextStyle(fontSize: 21, color: Colors.black)),
                   leading: Radio(
                     value: 2,
                     activeColor: const Color(0xffF4A53C),

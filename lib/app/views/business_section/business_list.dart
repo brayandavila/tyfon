@@ -1,8 +1,11 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/business.dart';
 import 'package:tyfon/app/views/business_section/business_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Businesslist extends StatefulWidget {
   const Businesslist({Key? key}) : super(key: key);
@@ -12,12 +15,42 @@ class Businesslist extends StatefulWidget {
 }
 
 class _BusinesslistState extends State<Businesslist> {
+
   bool _hasCallSupport = false;
   Future<void>? _launched;
   String _phone = '';
+  late Position position; 
+  var latitud = 0.0;
+  var longitud = 0.0;
+  
+  Future<Position> _determinePosition() async {
+    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+    } 
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
 
   @override
   void initState() {
+    _determinePosition();
     super.initState();
     // Check for phone call support.
     canLaunch('tel:123').then((bool result) {
@@ -70,9 +103,13 @@ class _BusinesslistState extends State<Businesslist> {
     );
   }
 
-  List<Widget> _listBusiness(data) {
+  List<Widget> _listBusiness(data) {   
     List<Widget> business = [];
-    for (var business1 in data) {
+    for (var business1 in data) {      
+      double latitudB = double.parse(business1.latBusiness);
+      double longitudB = double.parse(business1.lonBusiness);
+      double distanceInMeters = Geolocator.distanceBetween(latitud, longitud, latitudB, longitudB);      
+      var distancia = (distanceInMeters/1000).toStringAsFixed(2);
       var logo = business1.logoBusiness;
       var businessData = [
         business1.idBusiness,
@@ -85,7 +122,7 @@ class _BusinesslistState extends State<Businesslist> {
         business1.categoryBusiness,
         business1.logoBusiness,
         business1.photoBusiness,
-        business1.lonBusiness,
+        business1.lonBusiness,        
       ];
       business.add(
         Card(
@@ -106,7 +143,7 @@ class _BusinesslistState extends State<Businesslist> {
                     fontSize: 15),
               ),
               subtitle: Text(
-                business1.addressBusiness + '\n' + business1.categoryBusiness,
+                business1.addressBusiness + '\n' + business1.categoryBusiness + '\n''$distancia'' Km',
                 style: const TextStyle(
                     fontFamily: 'Silka Medium',
                     fontSize: 10,
@@ -152,7 +189,7 @@ class _BusinesslistState extends State<Businesslist> {
               ],
             ),
             const Divider(
-              color: Colors.white70,
+              color: Colors.black,
               height: 10,
               thickness: 1,
               indent: 20,

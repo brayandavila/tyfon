@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_meedu/flutter_meedu.dart';
 import 'package:tyfon/app/views/pages/splash_screen/splash_controller.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tyfon/app/domain/inputs/sign_up.dart';
@@ -15,7 +17,7 @@ class SignUpRepositoryImpl implements SignUpRepository {
           email: data.email, password: data.password);
 
       userCredential.user!.updateDisplayName(
-        "${data.name}",
+        data.name,
       );
 
       return SignUpResponse(null, userCredential.user!);

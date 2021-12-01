@@ -47,7 +47,7 @@ class _ProductviewState extends State<Productview> {
         appBar: AppBar(
           title: Text(
             widget.data[1],
-            style: const TextStyle(color: Colors.white70),
+            style: const TextStyle(color: Colors.black),
           ),
           foregroundColor: Colors.white,
           bottomOpacity: 0.0,
@@ -76,7 +76,7 @@ class _ProductviewState extends State<Productview> {
                     ListTile(
                       title: Text(
                         widget.data[1],
-                        style: const TextStyle(color: Colors.white70),
+                        style: const TextStyle(color: Colors.black),
                       ),
                       subtitle: Text(
                         price2,

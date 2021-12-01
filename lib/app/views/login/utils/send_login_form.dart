@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:tyfon/app/views/global_widgets/dialogs/progress_dialog.dart';
 import 'package:tyfon/app/views/routes/routes.dart';

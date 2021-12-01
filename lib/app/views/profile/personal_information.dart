@@ -28,7 +28,7 @@ class _PersonalinformationState extends State<Personalinformation> {
       appBar: AppBar(
         title: const Text(
           'Actualizar mis datos',
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: Colors.black),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
@@ -47,7 +47,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Nombre completo',
                 focusedBorder: OutlineInputBorder(
@@ -78,7 +78,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Dirección',
                 focusedBorder: OutlineInputBorder(
@@ -109,7 +109,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Teléfono fijo',
                 focusedBorder: OutlineInputBorder(
@@ -139,7 +139,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Teléfono celular',
                 focusedBorder: OutlineInputBorder(
@@ -170,7 +170,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Nombre de usuario',
                 focusedBorder: OutlineInputBorder(
@@ -201,7 +201,7 @@ class _PersonalinformationState extends State<Personalinformation> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelStyle: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                 ),
                 labelText: 'Contraseña',
                 focusedBorder: OutlineInputBorder(

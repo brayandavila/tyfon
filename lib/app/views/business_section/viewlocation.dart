@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class Viewlocation extends StatefulWidget {
   final location;
@@ -8,6 +11,7 @@ class Viewlocation extends StatefulWidget {
 
   @override
   _ViewlocationState createState() => _ViewlocationState();
+  
 }
 
 class _ViewlocationState extends State<Viewlocation> {
@@ -18,7 +22,6 @@ class _ViewlocationState extends State<Viewlocation> {
     mapController = controller;
   }
 
-  
   @override
     Widget build(BuildContext context) {
       var lat = double.parse(widget.location);
@@ -26,9 +29,9 @@ class _ViewlocationState extends State<Viewlocation> {
       Map<MarkerId, Marker> markers = <MarkerId, Marker>{
       //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       MarkerId(widget.location): Marker(
-        markerId: MarkerId('Tienda'),
+        markerId: const MarkerId('Tienda'),
         position: LatLng(lat, lon),
-        infoWindow: InfoWindow(title: 'Tienda', snippet: 'Direccón'),
+        infoWindow: const InfoWindow(title: 'Tienda', snippet: 'Direccón'),
       )
     };
     LatLng _center = LatLng(lat, lon);

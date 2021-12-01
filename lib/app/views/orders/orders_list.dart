@@ -15,7 +15,7 @@ class _OrderlistState extends State<Orderlist> {
       appBar: AppBar(
         title: const Text(
           'Mis pedidos',
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: Colors.black),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
@@ -31,7 +31,7 @@ class _OrderlistState extends State<Orderlist> {
             title: const Text(
               'Nombre del negocio',
               style: TextStyle(
-                color: Colors.white70,
+                color: Colors.black,
                 fontSize: 20,
               ),
             ),
@@ -51,7 +51,7 @@ class _OrderlistState extends State<Orderlist> {
             title: const Text(
               'Nombre del negocio',
               style: TextStyle(
-                color: Colors.white70,
+                color: Colors.black,
                 fontSize: 20,
               ),
             ),
@@ -71,7 +71,7 @@ class _OrderlistState extends State<Orderlist> {
             title: const Text(
               'Nombre del negocio',
               style: TextStyle(
-                color: Colors.white70,
+                color: Colors.black,
                 fontSize: 20,
               ),
             ),

@@ -1,5 +1,8 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tyfon/app/domain/models/business.dart';
 import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/views/business_section/business_view.dart';
@@ -18,9 +21,39 @@ class _SearchresultState extends State<Searchresult> {
   bool _hasCallSupport = false;
   Future<void>? _launched;
   String _phone = '';
+  late Position position;
+  var latitud = 0.0;
+  var longitud = 0.0;
+
+  Future<Position> _determinePosition() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
 
   @override
   void initState() {
+    _determinePosition();
     super.initState();
     // Check for phone call support.
     canLaunch('tel:123').then((bool result) {
@@ -176,15 +209,24 @@ class _SearchresultState extends State<Searchresult> {
                                   resultado2['id_business'],
                                   resultado2['name_business'],
                                   resultado2['address_business'],
-                                  resultado2['lat_business'],
+                                  resultado2['lat_business'].toString(),
                                   resultado2['landline_business'],
                                   resultado2['phone_business'],
                                   resultado2['website_business'],
                                   resultado2['category_business'],
                                   resultado2['logo_business'],
                                   resultado2['photo_business'],
-                                  resultado2['lon_business'],
+                                  resultado2['lon_business'].toString(),
                                 ];
+                                double latitudB =
+                                    (resultado2['lat_business']);
+                                double longitudB =
+                                    (resultado2['lon_business']);
+                                double distanceInMeters =
+                                    Geolocator.distanceBetween(
+                                        latitud, longitud, latitudB, longitudB);
+                                var distancia = (distanceInMeters / 1000)
+                                    .toStringAsFixed(2);
                                 var logo = resultado2['logo_business'];
                                 return Card(
                                   color: Colors.transparent,
@@ -200,13 +242,14 @@ class _SearchresultState extends State<Searchresult> {
                                       title: Text(
                                         resultado2['name_business'],
                                         style: const TextStyle(
-                                            color: Colors.black),
+                                            fontFamily: 'Silka Semibold',
+                                            color: Colors.black,
+                                            fontSize: 15),
                                       ),
-                                      subtitle: Text(
-                                        resultado2['address_business'] +
-                                            '\n' +
-                                            resultado2['category_business'],
+                                      subtitle: Text(resultado2['address_business'] + '\n' + resultado2['category_business'] + '\n' '$distancia'' Km',
                                         style: const TextStyle(
+                                            fontFamily: 'Silka Medium',
+                                            fontSize: 10,
                                             color: Colors.black),
                                       ),
                                       leading: ClipRRect(
@@ -249,7 +292,7 @@ class _SearchresultState extends State<Searchresult> {
                                       ],
                                     ),
                                     const Divider(
-                                      color: Colors.white70,
+                                      color: Colors.black,
                                       height: 10,
                                       thickness: 1,
                                       indent: 20,

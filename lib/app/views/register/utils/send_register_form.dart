@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unnecessary_null_comparison, avoid_print, duplicate_ignore
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tyfon/app/domain/inputs/sign_up.dart';

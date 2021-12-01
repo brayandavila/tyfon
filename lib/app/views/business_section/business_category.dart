@@ -1,5 +1,8 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tyfon/app/domain/models/business.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,8 +21,38 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
   Future<void>? _launched;
   String _phone = '';
 
+  late Position position; 
+  var latitud = 0.0;
+  var longitud = 0.0;
+  
+  Future<Position> _determinePosition() async {
+    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+    } 
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
+
   @override
   void initState() {
+    _determinePosition();
     super.initState();
     // Check for phone call support.
     canLaunch('tel:123').then((bool result) {
@@ -43,7 +76,7 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
       appBar: AppBar(
         title: Text(
           widget.category,
-          style: const TextStyle(color: Colors.white70),
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
@@ -78,6 +111,10 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
   List<Widget> _listBusiness(data) {
     List<Widget> business = [];
     for (var business1 in data) {
+      double latitudB = double.parse(business1.latBusiness);
+      double longitudB = double.parse(business1.lonBusiness);
+      double distanceInMeters = Geolocator.distanceBetween(latitud, longitud, latitudB, longitudB);      
+      var distancia = (distanceInMeters/1000).toStringAsFixed(2);
       var logo = business1.logoBusiness;
       var businessData = [
         business1.idBusiness,
@@ -105,11 +142,17 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
             ListTile(
               title: Text(
                 business1.nameBusiness,
-                style: const TextStyle(color: Colors.white70, fontSize: 20),
+                style: const TextStyle(
+                    fontFamily: 'Silka Semibold',
+                    color: Colors.black,
+                    fontSize: 15),
               ),
               subtitle: Text(
-                business1.addressBusiness + '\n' + business1.categoryBusiness,
-                style: const TextStyle(color: Colors.white38),
+                business1.addressBusiness + '\n' + business1.categoryBusiness + '\n''$distancia'' Km',
+                style: const TextStyle(
+                    fontFamily: 'Silka Medium',
+                    fontSize: 10,
+                    color: Colors.black),
               ),
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
@@ -130,7 +173,10 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
                               builder: (context) =>
                                   Businessview(businessData)));
                     },
-                    child: const Text('VER TIENDA')),
+                    child: const Text(
+                      'Ver tienda',
+                      style: TextStyle(fontFamily: 'Silka Semibold'),
+                    )),
                 const SizedBox(
                   width: 8,
                 ),
@@ -148,7 +194,7 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
               ],
             ),
             const Divider(
-              color: Colors.white70,
+              color: Colors.black,
               height: 10,
               thickness: 1,
               indent: 20,
