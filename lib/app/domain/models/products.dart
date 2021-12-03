@@ -11,6 +11,17 @@ class Products {
       this.priceProducts);
 }
 
+class Products2 {
+  final int idProducts;
+  final String nameProducts;
+  final int idBusinessProducts;
+  final int priceProducts;
+  final int cantProducts;
+
+  Products2(this.idProducts, this.nameProducts, this.idBusinessProducts,
+      this.priceProducts, this.cantProducts);
+}
+
 const url =
     'https://script.google.com/macros/s/AKfycbylEWkWAsoJ2r0d7OEUSGwEmrbqv0XlqGa6qFuKGKBAb1oEOGG7iB7Kyf4MNg-0fy4WXQ/exec?';
 
@@ -55,21 +66,47 @@ Future<List> getProductsBusiness(idB) async {
 
 List<String> ids = [];
 List<int> precios = [];
-List<Products> product = [];
-Future<List<Products>> cart(add1) async {
+List<Products2> product = [];
+Future<List<Products2>> cart(add1) async {
+  int cont = 0;
   totalito = totalito + add1[3];
   ids.add(add1[0].toString());
   precios.add(add1[3]);
-  if (add1 != null) {
-    product.add(Products(
+  for (var i = 0; i < ids.length; i++) {
+    if (add1[0].toString() == ids[i].toString()) {
+      cont++;
+
+    }
+  }
+  if (cont == 1) {
+    product.add(Products2(
       add1[0],
       add1[1],
       add1[2],
       add1[3],
+      cont,
     ));
     return product;
-  } else {
-    throw Exception('Falló al obtener productos');
+  } else if (cont != 1) {
+      for (var i = 0; i < product.length; i++) {
+        if (add1[0].toString() == ids[i].toString()) {
+          product.remove(product[i]);
+          ids.remove(ids[i]);
+        }
+      }
+      cont++;
+    //product.remove(add1);
+    product.add(Products2(
+      add1[0],
+      add1[1],
+      add1[2],
+      add1[3],
+      cont,
+    ));
+
+    return product;
+  }  else {
+    return product;
   }
 }
 

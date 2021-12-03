@@ -15,7 +15,7 @@ class _OrderlistState extends State<Orderlist> {
       appBar: AppBar(
         title: const Text(
           'Mis pedidos',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,

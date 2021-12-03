@@ -141,8 +141,8 @@ class _SearchState extends State<Search> {
                   );
                 },
                 child: Card(
-                  color: const Color(0xff13121D),
-                  elevation: 0,
+                  //color: const Color(0xff13121D),
+                  elevation: 8,
                   child: Column(
                     children: const <Widget>[
                       ListTile(
@@ -172,8 +172,8 @@ class _SearchState extends State<Search> {
                   );
                 },
                 child: Card(
-                  color: const Color(0xff13121D),
-                  elevation: 0,
+                  //color: const Color(0xff13121D),
+                  elevation: 8,
                   child: Column(
                     children: const <Widget>[
                       ListTile(

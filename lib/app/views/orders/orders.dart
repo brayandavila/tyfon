@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/views/orders/pay.dart';
+
+
 
 int total = 0;
 
@@ -88,6 +91,7 @@ class _OrdersState extends State<Orders> {
     for (var product in data) {
       int precio = product.priceProducts;
       total = total + precio;
+      var cantidad = product.cantProducts;
       var precio2 = r'$' '$precio';
       products.add(
         Card(
@@ -124,6 +128,7 @@ class _OrdersState extends State<Orders> {
                       },
                     ),
                   ),
+                  Text('$cantidad')
                 ],
               ),
             ],

@@ -28,7 +28,7 @@ class _PersonalinformationState extends State<Personalinformation> {
       appBar: AppBar(
         title: const Text(
           'Actualizar mis datos',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
