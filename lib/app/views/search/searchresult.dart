@@ -25,11 +25,7 @@ class _SearchresultState extends State<Searchresult> {
   var latitud = 0.0;
   var longitud = 0.0;
 
-  Future<Position> _determinePosition() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    latitud = position.latitude;
-    longitud = position.longitude;
+  Future<Position> _determinePosition() async {    
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -47,6 +43,10 @@ class _SearchresultState extends State<Searchresult> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
@@ -111,11 +111,15 @@ class _SearchresultState extends State<Searchresult> {
                       itemBuilder: (context, index) {
                         Map resultado = snapshot.data[index];
                         var price = resultado['price_products'];
+                        var photo = resultado['photo_products'];
+                        var logo = resultado['logo_business_products'];
                         var productData = [
                           resultado['id_products'],
                           resultado['name_products'],
                           resultado['id_business_products'],
-                          resultado['price_products']
+                          resultado['price_products'],
+                          resultado['photo_products'],
+                          resultado['logo_business_products'],
                         ];
                         String price2 = r'$' '$price';
                         return Card(
@@ -142,11 +146,18 @@ class _SearchresultState extends State<Searchresult> {
                                     leading: ClipRRect(
                                         borderRadius: BorderRadius.circular(40),
                                         child: Image.network(
-                                            'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg')),
-                                    trailing: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                          'https://okdiario.com/img/2021/05/28/hamburguesa-3.jpg'),
+                                            '$logo')),
+                                    trailing: Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              '$photo'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius:
+                                            const BorderRadius.all(Radius.circular(10))),                     
                                     ),
                                   ),
                                   const SizedBox(

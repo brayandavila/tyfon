@@ -45,6 +45,8 @@ class _BusinessviewState extends State<Businessview> {
     var web = widget.idB[6];
     var _url1 = '$web';
     var idBus = widget.idB[0];
+    var logo = widget.idB[8];
+    var photo = widget.idB[9];
     void _launchURL() async {
       if (!await launch(_url1)) throw 'Could not launch $url';
     }
@@ -54,8 +56,7 @@ class _BusinessviewState extends State<Businessview> {
         actions: [
           ClipRRect(
             borderRadius: BorderRadius.circular(40),
-            child: Image.network(
-                'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg'),
+            child: Image.network('$logo'),
           ),
         ],
         title: Text(
@@ -69,6 +70,15 @@ class _BusinessviewState extends State<Businessview> {
       ),
       body: Column(
         children: <Widget>[
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage('$photo'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Row(
             children: [
               TextButton(
@@ -76,15 +86,14 @@ class _BusinessviewState extends State<Businessview> {
                 onPressed: _launchURL,
               ),
               TextButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Viewlocation(location, location2)));
-                }, 
-                child: const Icon(Icons.location_on)
-              ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Viewlocation(location, location2)));
+                  },
+                  child: const Icon(Icons.location_on)),
               TextButton(
                 onPressed: _hasCallSupport
                     ? () => setState(() {
@@ -99,7 +108,6 @@ class _BusinessviewState extends State<Businessview> {
               ),
             ],
           ),
-          
           Expanded(
             child: FutureBuilder(
               future: getProductsBusiness('$idBus'),
@@ -110,11 +118,15 @@ class _BusinessviewState extends State<Businessview> {
                       itemBuilder: (context, index) {
                         Map resultado = snapshot.data[index];
                         var price = resultado['price_products'];
+                        var photo = resultado['photo_products'];
+                        var logo = resultado['logo_business_products'];
                         var productData = [
                           resultado['id_products'],
                           resultado['name_products'],
                           resultado['id_business_products'],
-                          resultado['price_products']
+                          resultado['price_products'],
+                          resultado['photo_products'],
+                          resultado['logo_business_products'],
                         ];
                         String price2 = r'$' '$price';
                         return Card(
@@ -127,18 +139,25 @@ class _BusinessviewState extends State<Businessview> {
                                   ListTile(
                                     title: Text(
                                       resultado['name_products'],
-                                      style: const TextStyle(
-                                          color: Colors.black),
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                     ),
                                     trailing: Text(
                                       price2,
                                       style:
                                           const TextStyle(color: Colors.green),
                                     ),
-                                    leading: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                            'https://okdiario.com/img/2021/05/28/hamburguesa-3.jpg')),
+                                    leading: Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage('$photo'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10))),
+                                    ),
                                   ),
                                   Row(
                                     mainAxisAlignment:

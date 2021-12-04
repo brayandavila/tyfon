@@ -52,11 +52,15 @@ class _ProductslistState extends State<Productslist> {
     for (var product in data) {
       var precio = product.priceProducts;
       var precio2 = r'$' '$precio';
+      var photo = product.photoProducts; 
+      var logo = product.logoBusinessProducts;     
       var productData = [
         product.idProducts,
         product.nameProducts,
         product.idBusinessProducts,
-        product.priceProducts
+        product.priceProducts,
+        product.photoProducts,
+        product.logoBusinessProducts,
       ];
       products.add(
         Card(
@@ -96,13 +100,20 @@ class _ProductslistState extends State<Productslist> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Image.network(
-                            'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg'),
+                            '$logo'),
                       ),
                     ),
-                    trailing: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                          'https://okdiario.com/img/2021/05/28/hamburguesa-3.jpg'),
+                    trailing: Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              '$photo'),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),                     
                     ),
                   ),
                   const SizedBox(

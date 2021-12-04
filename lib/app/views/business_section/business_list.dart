@@ -24,9 +24,6 @@ class _BusinesslistState extends State<Businesslist> {
   var longitud = 0.0;
   
   Future<Position> _determinePosition() async {
-    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    latitud = position.latitude;
-    longitud = position.longitude;
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -44,14 +41,19 @@ class _BusinesslistState extends State<Businesslist> {
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.');
     } 
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high,);
+     
   }
 
 
   @override
   void initState() {
-    _determinePosition();
+    
     super.initState();
+    _determinePosition();
     // Check for phone call support.
     canLaunch('tel:123').then((bool result) {
       setState(() {

@@ -25,10 +25,7 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
   var latitud = 0.0;
   var longitud = 0.0;
   
-  Future<Position> _determinePosition() async {
-    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    latitud = position.latitude;
-    longitud = position.longitude;
+  Future<Position> _determinePosition() async {    
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -46,6 +43,9 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.');
     } 
+    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 

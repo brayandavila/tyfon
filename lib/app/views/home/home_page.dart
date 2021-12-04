@@ -1,14 +1,21 @@
 // ignore_for_file: unused_import, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meedu/flutter_meedu.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tyfon/app/domain/models/business.dart';
+import 'package:tyfon/app/domain/models/getcategory.dart';
 import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/domain/repositories/authentification_repository.dart';
 import 'package:flutter_meedu/router.dart' as router;
+import 'package:tyfon/app/views/business_section/business_category.dart';
 import 'package:tyfon/app/views/business_section/business_list.dart';
+import 'package:tyfon/app/views/business_section/business_view.dart';
+import 'package:tyfon/app/views/business_section/category.dart';
 import 'package:tyfon/app/views/products_section/product_view.dart';
 import 'package:tyfon/app/views/products_section/products_list.dart';
 import 'package:tyfon/app/views/routes/routes.dart';
@@ -21,6 +28,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Position position;
+  var latitud = 0.0;
+  var longitud = 0.0;
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    latitud = position.latitude;
+    longitud = position.longitude;
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  @override
+  void initState() {
+    _determinePosition();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +140,7 @@ class _HomePageState extends State<HomePage> {
           ),
           FutureBuilder(
             future: getBusiness(),
+            //initialData: [getBusiness(), getBusinessforcategory('1')],
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Padding(
@@ -131,89 +175,41 @@ class _HomePageState extends State<HomePage> {
                   'Categorías',
                   style: TextStyle(fontFamily: 'Silka Semibold'),
                 ),
-                TextButton(onPressed: () {}, child: const Text('Ver todo'))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Category()));
+                    },
+                    child: const Text('Ver todo'))
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 20.0),
-              height: 80.0,
-              child: ListView(
-                // This next line does the trick.
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Container(
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
+          FutureBuilder(
+            future: getCategory(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 20.0),
+                    height: 110.0,
+                    child: ListView.builder(
+                      itemCount: _listCategory(snapshot.data).length,
+                      itemBuilder: (context, index) {
+                        final item = _listCategory(snapshot.data)[index];
+                        return item;
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/825/825561.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
-                  ),
-                ],
-              ),
-            ),
+                );
+              } else if (snapshot.hasError) {
+                Text('$snapshot.error');
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
@@ -225,11 +221,15 @@ class _HomePageState extends State<HomePage> {
     for (var product in data) {
       var precio = product.priceProducts;
       var precio2 = r'$' '$precio';
+      var photo = product.photoProducts;
+      var logo = product.logoBusinessProducts;
       var productData = [
         product.idProducts,
         product.nameProducts,
         product.idBusinessProducts,
-        product.priceProducts
+        product.priceProducts,
+        product.photoProducts,
+        product.logoBusinessProducts,
       ];
       products.add(
         Row(
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                              'https://sirviella.com/noticias/wp-content/uploads/2019/04/material-vajilla.jpg'),
+                              '$photo'),
                           fit: BoxFit.cover,
                         ),
                         borderRadius:
@@ -268,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                                     radius: 25,
                                     child: CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          'https://image.freepik.com/vector-gratis/diseno-plantilla-logotipo-botanico-lujo-vector-marca-salud-bienestar_53876-154261.jpg'),
+                                          '$logo'),
                                       radius: 23,
                                     ),
                                   )),
@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(
-                  width: 160,
+                  width: 140,
                   child: Column(
                     children: [
                       Align(
@@ -330,148 +330,253 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _listBusiness(data) {
     List<Widget> business = [];
-    for (var bussiness1 in data) {
-      var id = bussiness1.nameBusiness;
-      business.add(
-        Row(
-          children: [
-            Container(
-              width: 330.0,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: Colors.black12),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+    for (var business1 in data) {
+      if (business.length == 10){
+        break;
+      }
+      var idBuss = business1.idBusiness;
+      //while (business.length < 10) {
+        double latitudB = double.parse(business1.latBusiness);
+        double longitudB = double.parse(business1.lonBusiness);
+        double distanceInMeters =
+        Geolocator.distanceBetween(latitud, longitud, latitudB, longitudB);
+        var distancia = (distanceInMeters / 1000).toStringAsFixed(2);
+        var logo = business1.logoBusiness;
+        var businessData = [
+          business1.idBusiness,
+          business1.nameBusiness,
+          business1.addressBusiness,
+          business1.latBusiness,
+          business1.landlineBusiness,
+          business1.phoneBusiness,
+          business1.websiteBusiness,
+          business1.categoryBusiness,
+          business1.logoBusiness,
+          business1.photoBusiness,
+          business1.lonBusiness,
+        ];
+        business.add(
+          Row(
+            children: [
+              Container(
+                width: 340.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  border: Border.all(color: Colors.black12),
+                ),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Businessview(businessData)));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      'https://image.freepik.com/vector-gratis/diseno-plantilla-logotipo-botanico-lujo-vector-marca-salud-bienestar_53876-154261.jpg'),
-                                  radius: 25,
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SizedBox(
-                              width: 150,
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      bussiness1.nameBusiness,
-                                      style: TextStyle(
-                                          fontFamily: 'Silka Semibold',
-                                          fontSize: 18),
-                                      softWrap: true,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      bussiness1.addressBusiness,
-                                      style: TextStyle(
-                                          fontFamily: 'Silka Semibold',
-                                          fontSize: 10),
-                                      softWrap: true,
-                                    ),
-                                  )
-                                ],
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                                child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          '$logo'),
+                                      radius: 25,
+                                    )),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SizedBox(
+                                  width: 150,
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          business1.nameBusiness,
+                                          style: TextStyle(
+                                              fontFamily: 'Silka Semibold',
+                                              fontSize: 18),
+                                          softWrap: true,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          business1.addressBusiness,
+                                          style: TextStyle(
+                                              fontFamily: 'Silka Semibold',
+                                              fontSize: 10),
+                                          softWrap: true,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                Text('4.5',
+                                    style: TextStyle(
+                                        fontFamily: 'Silka Semibold',
+                                        fontSize: 18)),
+                                Text('$distancia Km',
+                                    style: TextStyle(
+                                        fontFamily: 'Silka Semibold',
+                                        fontSize: 10)),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Text('4.5',
-                                style: TextStyle(
-                                    fontFamily: 'Silka Semibold',
-                                    fontSize: 18)),
-                            Text('2.3 Km',
-                                style: TextStyle(
-                                    fontFamily: 'Silka Semibold',
-                                    fontSize: 10)),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  /* FutureBuilder(
-                    future: getBusinessforcategory('1'),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 20.0),
-                            height: 90.0,
-                            child: ListView.builder(
-                              itemCount: /* _listProductForBusiness(snapshot.data).length */ 6,
-                              itemBuilder: (context, index) {
-                                final item = _listProductForBusiness(
-                                    snapshot.data)[index];
-                                return item;
-                              },
-                              scrollDirection: Axis.horizontal,
+                    ),
+                    FutureBuilder(
+                      future: getProductsBusiness('$idBuss'),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              height: 90.0,
+                              child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  Map resultado = snapshot.data[index];
+                                  var productData = [
+                                    resultado['id_products'],
+                                    resultado['name_products'],
+                                    resultado['id_business_products'],
+                                    resultado['price_products'],
+                                    resultado['photo_products'],
+                                    resultado['logo_business_products'],
+                                  ];
+                                  var photo = resultado['photo_products'];
+                                  return Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Productview(
+                                                          productData)));
+                                        },
+                                        child: Container(
+                                          width: 100.0,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    '$photo'),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10))),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                    ],
+                                  );
+                                },
+                                scrollDirection: Axis.horizontal,
+                              ),
                             ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        Text('Jueputaaaaa');
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  ), */
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+        );
+      
+    }
+
+    return business;
+  }
+
+  List<Widget> _listCategory(data) {
+    List<Widget> categories = [];
+    for (var category in data) {
+      var categ = category.category;
+      categories.add(
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Businessforcategory(categ)));
+              },
+              child: Column(
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
+                          fit: BoxFit.scaleDown,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(80))),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 20,
+                    width: 80,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        categ,
+                        style: TextStyle(
+                          fontFamily: 'Silka Semibold',
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(
-              width: 20,
+              width: 10,
             ),
           ],
         ),
       );
     }
-    return business;
-  }
-
-  List<Widget> _listProductForBusiness(data) {
-    List<Widget> products = [];
-    for (var product in data) {
-      products.add(
-        Row(
-          children: [
-            Container(
-              width: 100.0,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        'https://cdn.pixabay.com/photo/2017/01/11/11/33/cake-1971552_960_720.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-          ],
-        ),
-      );
-    }
-    return products;
+    return categories;
   }
 }

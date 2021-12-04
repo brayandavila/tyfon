@@ -17,11 +17,15 @@ class _ProductviewState extends State<Productview> {
   Widget build(BuildContext context) {
     var price = widget.data[3];
     var price2 = r'$' '$price';
+    var photo = widget.data[4];
+    var logo = widget.data[5];
     var productData = [
       widget.data[0],
       widget.data[1],
       widget.data[2],
-      widget.data[3]
+      widget.data[3],
+      widget.data[4],
+      widget.data[5],
     ];
     return Scaffold(
         floatingActionButton: Column(
@@ -47,7 +51,7 @@ class _ProductviewState extends State<Productview> {
         appBar: AppBar(
           title: Text(
             widget.data[1],
-            style: const TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.white),
           ),
           foregroundColor: Colors.white,
           bottomOpacity: 0.0,
@@ -69,7 +73,7 @@ class _ProductviewState extends State<Productview> {
                             child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                              'https://okdiario.com/img/2021/05/28/hamburguesa-3.jpg'),
+                              '$photo'),
                         )),
                       ],
                     ),
@@ -85,7 +89,7 @@ class _ProductviewState extends State<Productview> {
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Image.network(
-                            'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg'),
+                            '$logo'),
                       ),
                     ),
                     const SizedBox(

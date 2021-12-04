@@ -93,6 +93,7 @@ class _OrdersState extends State<Orders> {
       total = total + precio;
       var cantidad = product.cantProducts;
       var precio2 = r'$' '$precio';
+      var photo = product.photoProducts;
       products.add(
         Card(
           color: Colors.transparent,
@@ -112,10 +113,17 @@ class _OrdersState extends State<Orders> {
                       style: const TextStyle(
                           fontFamily: 'Silka Semibold', color: Colors.green),
                     ),
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                          'https://okdiario.com/img/2021/05/28/hamburguesa-3.jpg'),
+                    leading: Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              '$photo'),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),                     
                     ),
                     trailing: IconButton(
                       icon: const Icon(

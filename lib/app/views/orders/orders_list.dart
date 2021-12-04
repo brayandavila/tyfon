@@ -47,43 +47,8 @@ class _OrderlistState extends State<Orderlist> {
           const SizedBox(
             height: 20,
           ),
-          ListTile(
-            title: const Text(
-              'Nombre del negocio',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              ),
-            ),
-            leading: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Image.network(
-                    'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg')),
-            trailing: TextButton(
-              onPressed: () {},
-              child: const Text('Ver detalles'),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ListTile(
-            title: const Text(
-              'Nombre del negocio',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              ),
-            ),
-            leading: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Image.network(
-                    'https://i.pinimg.com/564x/7d/66/6c/7d666cc9a54d44cd9e74371ee99bd703.jpg')),
-            trailing: TextButton(
-              onPressed: () {},
-              child: const Text('Ver detalles'),
-            ),
-          ),
+          
+          
         ],
       ),
     );

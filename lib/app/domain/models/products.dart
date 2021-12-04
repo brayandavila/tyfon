@@ -6,9 +6,11 @@ class Products {
   final String nameProducts;
   final int idBusinessProducts;
   final int priceProducts;
+  final String photoProducts;
+  final String logoBusinessProducts;
 
   Products(this.idProducts, this.nameProducts, this.idBusinessProducts,
-      this.priceProducts);
+      this.priceProducts, this.photoProducts, this.logoBusinessProducts);
 }
 
 class Products2 {
@@ -16,10 +18,12 @@ class Products2 {
   final String nameProducts;
   final int idBusinessProducts;
   final int priceProducts;
+  final String photoProducts;
+  final String logoBusinessProducts;
   final int cantProducts;
 
   Products2(this.idProducts, this.nameProducts, this.idBusinessProducts,
-      this.priceProducts, this.cantProducts);
+      this.priceProducts, this.photoProducts, this.logoBusinessProducts, this.cantProducts);
 }
 
 const url =
@@ -33,7 +37,7 @@ Future<List<Products>> getProduct() async {
     final jsonData = jsonDecode(body);
     for (var item in jsonData["data"]) {
       product.add(Products(item["id_products"], item["name_products"],
-          item["id_business_products"], item["price_products"]));
+          item["id_business_products"], item["price_products"], item["photo_products"], item["logo_business_products"]));
     }
     return product;
   } else {
@@ -64,6 +68,8 @@ Future<List> getProductsBusiness(idB) async {
   }
 }
 
+
+
 List<String> ids = [];
 List<int> precios = [];
 List<Products2> product = [];
@@ -84,6 +90,8 @@ Future<List<Products2>> cart(add1) async {
       add1[1],
       add1[2],
       add1[3],
+      add1[4],
+      add1[5],
       cont,
     ));
     return product;
@@ -101,6 +109,8 @@ Future<List<Products2>> cart(add1) async {
       add1[1],
       add1[2],
       add1[3],
+      add1[4],
+      add1[5],
       cont,
     ));
 
