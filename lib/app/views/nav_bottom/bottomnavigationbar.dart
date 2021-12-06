@@ -1,12 +1,13 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tyfon/app/domain/models/orders.dart';
+import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/views/home/home_page.dart';
 import 'package:tyfon/app/views/orders/orders.dart';
 import 'package:tyfon/app/views/profile/profile.dart';
 import 'package:tyfon/app/views/search/search.dart';
-
 
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
@@ -16,8 +17,6 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  
-  int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     Search(),
@@ -28,7 +27,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions[_selectedIndex],
+      body: _widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         elevation: 0,
@@ -39,7 +38,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         unselectedLabelStyle: const TextStyle(fontFamily: 'Silka Semibold'),
         selectedFontSize: 10,
         unselectedFontSize: 9,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
             label: 'Inicio',
@@ -49,7 +48,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Buscar',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+            icon: Stack(              
+              children: [
+                Icon(Icons.list),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 15,
+                      minHeight: 15,
+                    ),
+                    child: Text(
+                      '$identificador',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              ],
+            ),
             label: 'Pedidos',
           ),
           BottomNavigationBarItem(
@@ -57,10 +82,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Perfil',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            selectedIndex = index;
           });
         },
       ),

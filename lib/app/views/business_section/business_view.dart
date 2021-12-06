@@ -1,11 +1,15 @@
-// ignore_for_file: unused_field, prefer_final_fields
+// ignore_for_file: unused_field, prefer_final_fields, unused_local_variable, prefer_typing_uninitialized_variables, duplicate_ignore
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tyfon/app/domain/models/orders.dart';
 import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/views/business_section/viewlocation.dart';
+import 'package:tyfon/app/views/nav_bottom/bottomnavigationbar.dart';
 import 'package:tyfon/app/views/products_section/product_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class Businessview extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -44,161 +48,282 @@ class _BusinessviewState extends State<Businessview> {
     var location2 = widget.idB[10];
     var web = widget.idB[6];
     var _url1 = '$web';
-    var idBus = widget.idB[0];
     var logo = widget.idB[8];
     var photo = widget.idB[9];
+    var idBus = widget.idB[0];
     void _launchURL() async {
       if (!await launch(_url1)) throw 'Could not launch $url';
     }
 
     return Scaffold(
+      floatingActionButton: SpeedDial(
+        spaceBetweenChildren: 10,
+        icon: Icons.menu, //icon on Floating action button
+        activeIcon: Icons.close, //icon when menu is expanded on button
+        backgroundColor: const Color(0xffF4A53C), //background color of button
+        foregroundColor: Colors.white, //font color, icon color in button
+        activeBackgroundColor:
+            const Color(0xffF4A53C), //background color when menu is expanded
+        activeForegroundColor: Colors.white,
+        buttonSize: 56.0, //button size
+        visible: true,
+        closeManually: false,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        elevation: 8.0,
+        shape: const CircleBorder(),
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.language),
+            backgroundColor: const Color(0xffF4A53C),
+            foregroundColor: Colors.white,
+            onTap: _launchURL,
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.location_on),
+            backgroundColor: const Color(0xffF4A53C),
+            foregroundColor: Colors.white,
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Viewlocation(location, location2)));
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.phone),
+            foregroundColor: Colors.white,
+            backgroundColor: const Color(0xffF4A53C),
+            onTap: _hasCallSupport
+                ? () => setState(() {
+                      _launched = _makePhoneCall(widget.idB[5]);
+                    })
+                : null,
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white10,
       appBar: AppBar(
         actions: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(40),
-            child: Image.network('$logo'),
+          Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Image.network('$logo'),
+            ),
           ),
         ],
         title: Text(
-          widget.idB[1] + ' | ' + widget.idB[7],
+          widget.idB[1] + ' - ' + widget.idB[7],
           style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
         elevation: 0.0,
-        backgroundColor: const Color(0xff13121D),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.chevron_left),
+        ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage('$photo'),
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage('$photo'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              TextButton(
-                child: const Icon(Icons.language),
-                onPressed: _launchURL,
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 30, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 20,
+                      ),
+                      Text(
+                        '4.5',
+                        style: TextStyle(
+                          fontFamily: 'Silka Semibold',
+                          fontSize: 20,
+                          color: Colors.white70,
+                        ),
+                      )
+                    ],
+                  ),
+                  Text(
+                    widget.idB[2] + ' • 4.3 Km ',
+                    style: const TextStyle(
+                      fontFamily: 'Silka Semibold',
+                      fontSize: 20,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Viewlocation(location, location2)));
-                  },
-                  child: const Icon(Icons.location_on)),
-              TextButton(
-                onPressed: _hasCallSupport
-                    ? () => setState(() {
-                          _launched = _makePhoneCall(widget.idB[5]);
-                        })
-                    : null,
-                child: const Icon(Icons.phone),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Nuestros productos',
+                  style: TextStyle(
+                    fontFamily: 'Silka Semibold',
+                    fontSize: 20,
+                    color: Colors.white70,
+                  ),
+                ),
               ),
-              Text(
-                widget.idB[2],
-                style: const TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
-          Expanded(
-            child: FutureBuilder(
+            ),
+            FutureBuilder(
               future: getProductsBusiness('$idBus'),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        Map resultado = snapshot.data[index];
-                        var price = resultado['price_products'];
-                        var photo = resultado['photo_products'];
-                        var logo = resultado['logo_business_products'];
-                        var productData = [
-                          resultado['id_products'],
-                          resultado['name_products'],
-                          resultado['id_business_products'],
-                          resultado['price_products'],
-                          resultado['photo_products'],
-                          resultado['logo_business_products'],
-                        ];
-                        String price2 = r'$' '$price';
-                        return Card(
-                          color: Colors.transparent,
-                          elevation: 0,
-                          child: Column(
-                            children: <Widget>[
-                              Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      resultado['name_products'],
-                                      style:
-                                          const TextStyle(color: Colors.black),
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20.0),
+                      height: 400.0,
+                      child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            Map resultado = snapshot.data[index];
+                            var price = resultado['price_products'];
+                            var photo = resultado['photo_products'];
+                            var logo = resultado['logo_business_products'];
+                            var productData = [
+                              resultado['id_products'],
+                              resultado['name_products'],
+                              resultado['id_business_products'],
+                              resultado['price_products'],
+                              resultado['photo_products'],
+                              resultado['logo_business_products'],
+                            ];
+                            var price2 = NumberFormat.currency(
+                                    name: r'$', decimalDigits: 0)
+                                .format(price);
+                            return Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Productview(productData)));
+                                      },
+                                      child: Container(
+                                        width: 160.0,
+                                        height: 160.0,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage('$photo'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10))),
+                                      ),
                                     ),
-                                    trailing: Text(
-                                      price2,
-                                      style:
-                                          const TextStyle(color: Colors.green),
-                                    ),
-                                    leading: Container(
-                                      width: 80.0,
-                                      height: 80.0,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage('$photo'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10))),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Row(
+                                    SizedBox(
+                                      width: 150,
+                                      height: 50,
+                                      child: Column(
                                         children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Productview(
-                                                              productData)));
-                                            },
-                                            child: const Text('VER'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              cart(productData);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Producto agregado con éxito'),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      7, 5, 0, 0),
+                                              child: Text(
+                                                resultado['name_products'],
+                                                style: const TextStyle(
+                                                  fontFamily: 'Silka Semibold',
+                                                  fontSize: 15,
+                                                  color: Colors.white,
                                                 ),
-                                              );
-                                            },
-                                            child: const Text('AGREGAR'),
+                                                softWrap: true,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      });
+                                    ),
+                                    SizedBox(
+                                      width: 160,
+                                      height: 50,
+                                      child: TextButton.icon(
+                                        icon: const Icon(
+                                            Icons.add_circle_outline),
+                                        label: Text(
+                                          price2,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: 'Silka Semibold',
+                                          ),
+                                        ),
+                                        onPressed: () {                                          
+                                          cart(productData, identificador);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(                                              
+                                              action: SnackBarAction(
+                                                label: 'Ver carrito',
+                                                onPressed: () {
+                                                  selectedIndex=2;
+                                                  Navigator.push(                                                    
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const MyStatefulWidget()));
+                                                        },
+                                              ),
+                                              content: const Text(
+                                                  'Producto agregado con éxito'),
+                                            ),
+                                          );
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.black,
+                                          backgroundColor:
+                                              const Color(0xffF4A53C),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                )
+                              ],
+                            );
+                          }),
+                    ),
+                  );
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -206,14 +331,9 @@ class _BusinessviewState extends State<Businessview> {
                 }
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-/* const String _url = _url1;
-
-void _launchURL() async {
-  if (!await launch(_url)) throw 'Could not launch $url';
-} */

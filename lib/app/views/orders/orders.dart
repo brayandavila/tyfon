@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/products.dart';
 import 'package:tyfon/app/views/orders/pay.dart';
-
-
+import 'package:intl/intl.dart';
 
 int total = 0;
 
@@ -21,6 +18,7 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black87,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -40,7 +38,7 @@ class _OrdersState extends State<Orders> {
                 );
               }
             },
-            label: Text('Continuar por $totalito'),
+            label: Text('Continuar por $price2product'),
           ),
         ],
       ),
@@ -48,40 +46,36 @@ class _OrdersState extends State<Orders> {
         automaticallyImplyLeading: false,
         bottomOpacity: 0.0,
         elevation: 0.0,
+        centerTitle: true,
         backgroundColor: Colors.black,
         title: const Text(
           'Pedido en curso',
           style: TextStyle(fontFamily: 'Silka Semibold', color: Colors.white),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30),
-          Expanded(
-            child: FutureBuilder(
-              future: getOrder(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: _listProducts(snapshot.data).length,
-                    itemBuilder: (context, index) {
-                      final item = _listProducts(snapshot.data)[index];
-                      return item;
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  Text(
-                    '$snapshot.error',
-                    style: TextStyle(color: Colors.black),
-                  );
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+      body: FutureBuilder(
+        future: getOrder(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: _listProducts(snapshot.data).length,
+              itemBuilder: (context, index) {
+                final item = _listProducts(snapshot.data)[index];
+                return item;
               },
-            ),
-          ),
-        ],
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                '$snapshot.error',
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
@@ -91,56 +85,148 @@ class _OrdersState extends State<Orders> {
     for (var product in data) {
       int precio = product.priceProducts;
       total = total + precio;
-      var cantidad = product.cantProducts;
-      var precio2 = r'$' '$precio';
+      //var cantidad = product.cantProducts;
+      var price2 =
+          NumberFormat.currency(name: r'$', decimalDigits: 0).format(precio);
       var photo = product.photoProducts;
+      var logo = product.logoBusinessProducts;
       products.add(
-        Card(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Column(
-            children: <Widget>[
-              Column(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
-                  ListTile(
-                    title: Text(
-                      product.nameProducts,
-                      style: const TextStyle(
-                          fontFamily: 'Silka Medium', color: Colors.black),
-                    ),
-                    subtitle: Text(
-                      precio2,
-                      style: const TextStyle(
-                          fontFamily: 'Silka Semibold', color: Colors.green),
-                    ),
-                    leading: Container(
-                      width: 80.0,
-                      height: 80.0,
-                      decoration: BoxDecoration(
+                  Container(
+                    width: 110,
+                    height: 90,
+                    decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                              '$photo'),
+                          image: NetworkImage('$photo'),
                           fit: BoxFit.cover,
                         ),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),                     
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        deleteProduct(product.idProducts);
-                        setState(() {});
-                      },
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 12,
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage('$logo'),
+                                      radius: 23,
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  Text('$cantidad')
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: 150,
+                      child: Column(
+                        children: [
+                          Text(
+                            product.nameProducts,
+                            style: const TextStyle(
+                              fontFamily: 'Silka Medium',
+                              color: Colors.white70,
+                              fontSize: 16,
+                            ),
+                            softWrap: true,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              price2,
+                              style: const TextStyle(
+                                fontFamily: 'Silka Medium',
+                                color: Colors.green,
+                                fontSize: 14,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.remove, color: Colors.white70,),
+                                onPressed: () {},
+                              ),
+                              SizedBox(
+                                width: 20,
+                                child: Center(
+                                  child: Text(
+                                    '1',
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.white70),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.add, color: Colors.white70),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
+              SizedBox(
+                width: 50,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    deleteProduct(product.cantProducts);
+                    setState(() {});
+                  },
+                ),
+              )
             ],
           ),
+          /* Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        width: 20,
+                        child: Center(
+                          child: Text(
+                            '1',
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {},
+                      )
+                    ],
+                  ), */
         ),
       );
     }

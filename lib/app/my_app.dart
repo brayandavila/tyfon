@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        unselectedWidgetColor:Colors.white70,
           textTheme: const TextTheme(
               headline1: TextStyle(
                   fontSize: 30.0,

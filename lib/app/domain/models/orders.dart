@@ -1,16 +1,2 @@
-class Orders {
-  String idOrders;
-  String userClientsOrders;
-  int totalOrders;
+int selectedIndex = 0;
 
-  Orders(
-      {required this.idOrders,
-      required this.userClientsOrders,
-      required this.totalOrders});
-}
-
-class OrdersDAO {
-  List<Orders> orders = [
-    Orders(idOrders: '1', userClientsOrders: 'brayandavila', totalOrders: 25000)
-  ];
-}

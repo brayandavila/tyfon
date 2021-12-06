@@ -11,10 +11,11 @@ class Seacher extends SearchDelegate {
   Seacher()
       : super(
           searchFieldLabel: "Herramienta de busqueda",
-          searchFieldStyle: const TextStyle(
+          searchFieldStyle:  
+          const TextStyle(            
               fontFamily: 'Silka Semibold',
               fontSize: 14,
-              color: Colors.black12),
+              color: Colors.black54),
         );
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -33,26 +34,30 @@ class Seacher extends SearchDelegate {
         onPressed: () {
           close(context, null);
         },
-        icon: const Icon(Icons.arrow_back));
+        icon: const Icon(Icons.chevron_left));
   }
 
   @override
   Widget buildResults(BuildContext context) {
     return Container();
+ 
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      return const Center(
-          child: Text(
-        "Aún no has buscado nada",
-        style: TextStyle(
-          fontFamily: 'Silka Semibold',
-          fontSize: 14,
-          color: Colors.black,
-        ),
-      ));
+      return const Scaffold(
+        backgroundColor: Colors.black87,
+        body: Center(
+            child: Text(
+          "Aún no has buscado nada",
+          style: TextStyle(
+            fontFamily: 'Silka Semibold',
+            fontSize: 17,
+            color: Colors.white70,
+          ),
+        )),
+      );
     } else {
       return Searchresult(query);
     }

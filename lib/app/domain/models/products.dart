@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Products {
   final int idProducts;
@@ -22,8 +23,14 @@ class Products2 {
   final String logoBusinessProducts;
   final int cantProducts;
 
-  Products2(this.idProducts, this.nameProducts, this.idBusinessProducts,
-      this.priceProducts, this.photoProducts, this.logoBusinessProducts, this.cantProducts);
+  Products2(
+      this.idProducts,
+      this.nameProducts,
+      this.idBusinessProducts,
+      this.priceProducts,
+      this.photoProducts,
+      this.logoBusinessProducts,
+      this.cantProducts);
 }
 
 const url =
@@ -36,8 +43,13 @@ Future<List<Products>> getProduct() async {
     String body = utf8.decode(response.bodyBytes);
     final jsonData = jsonDecode(body);
     for (var item in jsonData["data"]) {
-      product.add(Products(item["id_products"], item["name_products"],
-          item["id_business_products"], item["price_products"], item["photo_products"], item["logo_business_products"]));
+      product.add(Products(
+          item["id_products"],
+          item["name_products"],
+          item["id_business_products"],
+          item["price_products"],
+          item["photo_products"],
+          item["logo_business_products"]));
     }
     return product;
   } else {
@@ -68,34 +80,40 @@ Future<List> getProductsBusiness(idB) async {
   }
 }
 
-
-
 List<String> ids = [];
+var identificador = 0;
 List<int> precios = [];
 List<Products2> product = [];
-Future<List<Products2>> cart(add1) async {
-  int cont = 0;
+var price2product =
+          NumberFormat.currency(name: r'$', decimalDigits: 0).format(totalito);
+
+Future<List<Products2>> cart(add1, iden) async {
+  iden++;
+  identificador = iden;
+  //int cont = 0;
   totalito = totalito + add1[3];
-  ids.add(add1[0].toString());
+  price2product =
+          NumberFormat.currency(name: r'$', decimalDigits: 0).format(totalito);
+  ids.add(identificador.toString());
   precios.add(add1[3]);
-  for (var i = 0; i < ids.length; i++) {
+  /* for (var i = 0; i < ids.length; i++) {
     if (add1[0].toString() == ids[i].toString()) {
       cont++;
 
     }
-  }
-  if (cont == 1) {
-    product.add(Products2(
-      add1[0],
-      add1[1],
-      add1[2],
-      add1[3],
-      add1[4],
-      add1[5],
-      cont,
-    ));
-    return product;
-  } else if (cont != 1) {
+  } */
+  /* if (cont == 1) { */
+  product.add(Products2(
+    add1[0],
+    add1[1],
+    add1[2],
+    add1[3],
+    add1[4],
+    add1[5],
+    identificador,
+  ));  
+  return product;
+  /* } else if (cont != 1) {
       for (var i = 0; i < product.length; i++) {
         if (add1[0].toString() == ids[i].toString()) {
           product.remove(product[i]);
@@ -117,12 +135,16 @@ Future<List<Products2>> cart(add1) async {
     return product;
   }  else {
     return product;
-  }
+  } */
 }
 
 num totalito = 0;
 
+      
+
 Future<List<void>> getOrder() async {
+  price2product =
+          NumberFormat.currency(name: r'$', decimalDigits: 0).format(totalito);
   return product;
 }
 
@@ -136,8 +158,11 @@ deleteProduct(id) {
   for (var j = 0; j < product.length; j++) {
     if (j == position) {
       product.remove(product[j]);
+      identificador--;
       ids.remove(ids[j]);
       totalito = totalito - precios[j];
+      price2product =
+          NumberFormat.currency(name: r'$', decimalDigits: 0).format(totalito);
       precios.remove(precios[j]);
     }
   }

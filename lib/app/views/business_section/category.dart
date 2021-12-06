@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tyfon/app/domain/models/getcategory.dart';
@@ -15,18 +17,33 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: AppBar(
-        title: const Text('Categorías'),
+        title: const Text('Categorías',
+            style:
+                TextStyle(fontFamily: 'Silka Semibold', color: Colors.white)),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
         elevation: 0.0,
-        backgroundColor: const Color(0xff13121D),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.chevron_left),
+        ),
       ),
       body: FutureBuilder(
         future: getCategory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 5 / 5,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 20),
               itemCount: _listProducts(snapshot.data).length,
               itemBuilder: (context, index) {
                 final item = _listProducts(snapshot.data)[index];
@@ -49,17 +66,49 @@ class _CategoryState extends State<Category> {
     for (var product in data) {
       var categ = product.category;
       products.add(
-        TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Businessforcategory(categ)));
-            },
-            child: Text(
-              categ,
-              style: const TextStyle(fontSize: 30),
-            )),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Businessforcategory(categ)));
+          },
+          child: Column(
+            children: [
+              SizedBox(height: 15,),
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          'https://cdn-icons-png.flaticon.com/512/242/242452.png'),
+                      fit: BoxFit.scaleDown,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(80))),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                height: 20,
+                width: 80,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    categ,
+                    style: TextStyle(
+                      fontFamily: 'Silka Semibold',
+                      fontSize: 15,
+                      color: Colors.white70,
+                    ),
+                    softWrap: true,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     }
     return products;

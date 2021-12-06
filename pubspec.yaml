@@ -46,6 +46,7 @@ dependencies:
   analyzer: ^2.0.0
   http: ^0.13.4
   google_maps_flutter: ^2.1.1
+  flutter_speed_dial: ^4.6.6
 
   
 

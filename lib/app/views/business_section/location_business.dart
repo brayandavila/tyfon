@@ -42,12 +42,21 @@ class _ForlocationState extends State<Forlocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
         appBar: AppBar(
-          title: const Text('Más cercanos'),
+          title: const Text('Más cercanos',
+          style: TextStyle(color: Colors.white),),
           foregroundColor: Colors.white,
           bottomOpacity: 0.0,
           elevation: 0.0,
-          backgroundColor: const Color(0xff13121D),
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.chevron_left),
+          ),
         ),
         body: FutureBuilder(
         future: getBusinessSort(),
@@ -90,77 +99,59 @@ class _ForlocationState extends State<Forlocation> {
         business1.distanceBusiness,    
       ];
       business.add(
-        Card(
-          color: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-          margin: const EdgeInsets.all(10),
-          elevation: 0,
-          child: Column(children: <Widget>[
-            const SizedBox(
-              height: 15,
-            ),
-            ListTile(
-              title: Text(
-                business1.nameBusiness,
-                style: const TextStyle(
-                    fontFamily: 'Silka Semibold',
-                    color: Colors.black,
-                    fontSize: 15),
-              ),
-              subtitle: Text(
-                business1.addressBusiness + '\n' + business1.categoryBusiness + '\n'+ '$distance' + ' Km',
-                style: const TextStyle(
-                    fontFamily: 'Silka Medium',
-                    fontSize: 10,
-                    color: Colors.black),
-              ),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Image.network('$logo'),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Businessview(businessData)));
-                    },
-                    child: const Text(
-                      'Ver tienda',
-                      style: TextStyle(fontFamily: 'Silka Semibold'),
-                    )),
-                const SizedBox(
-                  width: 8,
+        InkWell(
+          onTap: (){
+            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Businessview(businessData)));
+          },
+          child: Card(
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+            elevation: 0,
+            child: Column(children: <Widget>[            
+              ListTile(
+                title: Text(
+                  business1.nameBusiness,
+                  style: const TextStyle(
+                      fontFamily: 'Silka Semibold',
+                      color: Colors.white70,
+                      fontSize: 20),
                 ),
-                TextButton(
+                subtitle: Text(
+                  business1.addressBusiness + '\n' + business1.categoryBusiness + '\n''$distance'' Km',
+                  style: const TextStyle(
+                      fontFamily: 'Silka Medium',
+                      fontSize: 12,
+                      color: Colors.white70),
+                ),
+                leading: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage('$logo'),                  
+                ),
+                trailing: TextButton(
                   onPressed: _hasCallSupport
                       ? () => setState(() {
                             _launched = _makePhoneCall(business1.phoneBusiness);
                           })
                       : null,
-                  child: const Icon(Icons.phone),
+                  child: const Icon(Icons.phone,color: Color(0xffF4A53C),),
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-              ],
-            ),
-            const Divider(
-              color: Colors.black,
-              height: 10,
-              thickness: 1,
-              indent: 20,
-              endIndent: 20,
-            ),
-          ]),
+              ),   
+              const SizedBox(
+                height: 5,
+              ),
+              const Divider(
+                color: Colors.white70,
+                height: 10,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
+            ]),
+          ),
         ),
       );
     }

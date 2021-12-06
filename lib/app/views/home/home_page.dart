@@ -19,6 +19,7 @@ import 'package:tyfon/app/views/business_section/category.dart';
 import 'package:tyfon/app/views/products_section/product_view.dart';
 import 'package:tyfon/app/views/products_section/products_list.dart';
 import 'package:tyfon/app/views/routes/routes.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -66,11 +67,56 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double widthscreen = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.black87,
         body: SingleChildScrollView(
       child: Column(
         children: [
-          Image.asset("assets/img/logo.png"),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 20.0),
+              height: 160.0,
+              child: ListView(                
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Container( 
+                    width: widthscreen-10,                 
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(                        
+                        image: AssetImage("assets/img/logo.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),                    
+                  ),
+                  SizedBox(width: 10,),
+                  Container(
+                    width: widthscreen-10, 
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(                        
+                        image: NetworkImage("https://image.freepik.com/free-vector/online-shop-cartoon-poster-hand-give-shopping-bag_107791-7042.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),       
+                  ),
+                  SizedBox(width: 10,),
+                  Container(
+                    width: widthscreen-10, 
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(                        
+                        image: NetworkImage("https://image.freepik.com/free-vector/delivery-service-banner-shipping-parcels-documents-orders-from-restaurant-store_107791-5636.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),       
+                  ),
+                ],
+              ),
+            ),
+          ),          
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: Row(
@@ -78,7 +124,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text(
                   'Productos populares',
-                  style: TextStyle(fontFamily: 'Silka Semibold'),
+                  style: TextStyle(fontFamily: 'Silka Semibold', color: Colors.white70, fontSize: 18),
                 ),
                 TextButton(
                     onPressed: () {
@@ -125,7 +171,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text(
                   'Tiendas populares',
-                  style: TextStyle(fontFamily: 'Silka Semibold'),
+                  style: TextStyle(fontFamily: 'Silka Semibold', color: Colors.white70, fontSize: 18),
                 ),
                 TextButton(
                     onPressed: () {
@@ -173,7 +219,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text(
                   'Categorías',
-                  style: TextStyle(fontFamily: 'Silka Semibold'),
+                  style: TextStyle(fontFamily: 'Silka Semibold', color: Colors.white70, fontSize: 18),
                 ),
                 TextButton(
                     onPressed: () {
@@ -220,7 +266,9 @@ class _HomePageState extends State<HomePage> {
     List<Widget> products = [];
     for (var product in data) {
       var precio = product.priceProducts;
-      var precio2 = r'$' '$precio';
+      var precio2 = NumberFormat.currency(
+                                    name: r'$', decimalDigits: 0)
+                                .format(precio);
       var photo = product.photoProducts;
       var logo = product.logoBusinessProducts;
       var productData = [
@@ -248,8 +296,7 @@ class _HomePageState extends State<HomePage> {
                     height: 160.0,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                              '$photo'),
+                          image: NetworkImage('$photo'),
                           fit: BoxFit.cover,
                         ),
                         borderRadius:
@@ -267,8 +314,7 @@ class _HomePageState extends State<HomePage> {
                                     backgroundColor: Colors.white,
                                     radius: 25,
                                     child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          '$logo'),
+                                      backgroundImage: NetworkImage('$logo'),
                                       radius: 23,
                                     ),
                                   )),
@@ -308,7 +354,7 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             product.nameProducts,
                             style: TextStyle(
-                                fontFamily: 'Silka Semibold', fontSize: 15),
+                                fontFamily: 'Silka Semibold', fontSize: 15, color: Colors.white70),
                             softWrap: true,
                           ),
                         ),
@@ -331,190 +377,184 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _listBusiness(data) {
     List<Widget> business = [];
     for (var business1 in data) {
-      if (business.length == 10){
+      if (business.length == 10) {
         break;
       }
       var idBuss = business1.idBusiness;
       //while (business.length < 10) {
-        double latitudB = double.parse(business1.latBusiness);
-        double longitudB = double.parse(business1.lonBusiness);
-        double distanceInMeters =
-        Geolocator.distanceBetween(latitud, longitud, latitudB, longitudB);
-        var distancia = (distanceInMeters / 1000).toStringAsFixed(2);
-        var logo = business1.logoBusiness;
-        var businessData = [
-          business1.idBusiness,
-          business1.nameBusiness,
-          business1.addressBusiness,
-          business1.latBusiness,
-          business1.landlineBusiness,
-          business1.phoneBusiness,
-          business1.websiteBusiness,
-          business1.categoryBusiness,
-          business1.logoBusiness,
-          business1.photoBusiness,
-          business1.lonBusiness,
-        ];
-        business.add(
-          Row(
-            children: [
-              Container(
-                width: 340.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  border: Border.all(color: Colors.black12),
-                ),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Businessview(businessData)));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                                child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          '$logo'),
-                                      radius: 25,
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: SizedBox(
-                                  width: 150,
-                                  child: Column(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          business1.nameBusiness,
-                                          style: TextStyle(
-                                              fontFamily: 'Silka Semibold',
-                                              fontSize: 18),
-                                          softWrap: true,
-                                        ),
+      double latitudB = double.parse(business1.latBusiness);
+      double longitudB = double.parse(business1.lonBusiness);
+      double distanceInMeters =
+          Geolocator.distanceBetween(latitud, longitud, latitudB, longitudB);
+      var distancia = (distanceInMeters / 1000).toStringAsFixed(2);
+      var logo = business1.logoBusiness;
+      var businessData = [
+        business1.idBusiness,
+        business1.nameBusiness,
+        business1.addressBusiness,
+        business1.latBusiness,
+        business1.landlineBusiness,
+        business1.phoneBusiness,
+        business1.websiteBusiness,
+        business1.categoryBusiness,
+        business1.logoBusiness,
+        business1.photoBusiness,
+        business1.lonBusiness,
+      ];
+      business.add(
+        Row(
+          children: [
+            Container(
+              width: 340.0,
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(color: Colors.black12),
+              ),
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Businessview(businessData)));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage('$logo'),
+                                    radius: 25,
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        business1.nameBusiness,
+                                        style: TextStyle(
+                                            fontFamily: 'Silka Semibold',
+                                            fontSize: 18, color: Colors.white70),
+                                        softWrap: true,
                                       ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          business1.addressBusiness,
-                                          style: TextStyle(
-                                              fontFamily: 'Silka Semibold',
-                                              fontSize: 10),
-                                          softWrap: true,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        business1.addressBusiness,
+                                        style: TextStyle(
+                                            fontFamily: 'Silka Semibold',
+                                            fontSize: 10, color: Colors.white70),
+                                        softWrap: true,
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: [
+                              Text('4.5',
+                                  style: TextStyle(
+                                      fontFamily: 'Silka Semibold',
+                                      fontSize: 18, color: Colors.white70)),
+                              Text('$distancia Km',
+                                  style: TextStyle(
+                                      fontFamily: 'Silka Semibold',
+                                      fontSize: 10, color: Colors.white70)),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              children: [
-                                Text('4.5',
-                                    style: TextStyle(
-                                        fontFamily: 'Silka Semibold',
-                                        fontSize: 18)),
-                                Text('$distancia Km',
-                                    style: TextStyle(
-                                        fontFamily: 'Silka Semibold',
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                    FutureBuilder(
-                      future: getProductsBusiness('$idBuss'),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              height: 90.0,
-                              child: ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-                                  Map resultado = snapshot.data[index];
-                                  var productData = [
-                                    resultado['id_products'],
-                                    resultado['name_products'],
-                                    resultado['id_business_products'],
-                                    resultado['price_products'],
-                                    resultado['photo_products'],
-                                    resultado['logo_business_products'],
-                                  ];
-                                  var photo = resultado['photo_products'];
-                                  return Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Productview(
-                                                          productData)));
-                                        },
-                                        child: Container(
-                                          width: 100.0,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    '$photo'),
-                                                fit: BoxFit.cover,
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10))),
-                                        ),
+                  ),
+                  FutureBuilder(
+                    future: getProductsBusiness('$idBuss'),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 20.0),
+                            height: 90.0,
+                            child: ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                Map resultado = snapshot.data[index];
+                                var productData = [
+                                  resultado['id_products'],
+                                  resultado['name_products'],
+                                  resultado['id_business_products'],
+                                  resultado['price_products'],
+                                  resultado['photo_products'],
+                                  resultado['logo_business_products'],
+                                ];
+                                var photo = resultado['photo_products'];
+                                return Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Productview(productData)));
+                                      },
+                                      child: Container(
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage('$photo'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10))),
                                       ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                    ],
-                                  );
-                                },
-                                scrollDirection: Axis.horizontal,
-                              ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                  ],
+                                );
+                              },
+                              scrollDirection: Axis.horizontal,
                             ),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
-        );
-      
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+      );
     }
 
     return business;
@@ -542,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/45/45332.png'),
+                              'https://cdn-icons-png.flaticon.com/512/242/242452.png'),
                           fit: BoxFit.scaleDown,
                         ),
                         borderRadius:
@@ -561,7 +601,7 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                           fontFamily: 'Silka Semibold',
                           fontSize: 15,
-                          color: Colors.black,
+                          color: Colors.white70,
                         ),
                         softWrap: true,
                       ),

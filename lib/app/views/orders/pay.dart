@@ -10,76 +10,102 @@ class Pay extends StatefulWidget {
 }
 
 class _PayState extends State<Pay> {
-  String radioButtonItem = 'Envío a domicilio';
+  var recibirItem = const Icon(Icons.home, color: Colors.white70);
   int id = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.extended(
             backgroundColor: const Color(0xffF4A53C),
             foregroundColor: Colors.black,
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Pay()));
-            },
-            label: Text('Comprar por $totalito'),
+            onPressed: () {},
+            label: Text(
+              'Comprar por $price2product',
+              style: const TextStyle(fontFamily: 'Silka Semibold'),
+            ),
           ),
         ],
       ),
       appBar: AppBar(
-        title: const Text('Resumen de compra'),
+        title: const Text(
+          'Resumen de compra',
+          style: TextStyle(fontFamily: 'Silka Semibold', color: Colors.white),
+        ),
         foregroundColor: Colors.white,
         bottomOpacity: 0.0,
         elevation: 0.0,
-        backgroundColor: const Color(0xff13121D),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.chevron_left),
+        ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(30, 8, 30, 0),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ListTile(
-                  title: Text(radioButtonItem,
-                      style:
-                          const TextStyle(fontSize: 21, color: Colors.black)),
-                ),
-                ListTile(
-                  title: const Text('Recibe en casa',
-                      style: TextStyle(fontSize: 21, color: Colors.black)),
-                  leading: Radio(
-                    value: 1,
-                    activeColor: const Color(0xffF4A53C),
-                    groupValue: id,
-                    onChanged: (val) {
-                      setState(() {
-                        radioButtonItem = 'Envío a domicilio';
-                        id = 1;
-                      });
-                    },
+                TextButton(
+                  child: const Text(
+                    '¿Cómo quieres recoger tu pedido?',
+                    style: TextStyle(
+                      fontFamily: 'Silka Medium',
+                      color: Colors.white70,
+                      fontSize: 16,
+                    ),
                   ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Wrap(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  recibirItem = const Icon(Icons.home,
+                                      color: Colors.white70);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: const ListTile(
+                                leading: Icon(Icons.home),
+                                title: Text('Recibir en casa'),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  recibirItem = const Icon(Icons.business,
+                                      color: Colors.white70);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: const ListTile(
+                                leading: Icon(Icons.business),
+                                title: Text('Recoger en tienda'),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
-                ListTile(
-                  title: const Text('Recoger en tienda',
-                      style: TextStyle(fontSize: 21, color: Colors.black)),
-                  leading: Radio(
-                    value: 2,
-                    activeColor: const Color(0xffF4A53C),
-                    groupValue: id,
-                    onChanged: (val) {
-                      setState(() {
-                        radioButtonItem = 'Recoger en tienda';
-                        id = 2;
-                      });
-                    },
-                  ),
-                ),
+                recibirItem,
               ],
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
