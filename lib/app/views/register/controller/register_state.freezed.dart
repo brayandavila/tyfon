@@ -22,13 +22,15 @@ class _$RegisterStateTearOff {
       String verifyemail = '',
       String password = '',
       String verifypassword = '',
-      String name = ''}) {
+      String name = '',
+      String lastname = ''}) {
     return _RegisterState(
       email: email,
       verifyemail: verifyemail,
       password: password,
       verifypassword: verifypassword,
       name: name,
+      lastname: lastname,
     );
   }
 }
@@ -43,6 +45,7 @@ mixin _$RegisterState {
   String get password => throw _privateConstructorUsedError;
   String get verifypassword => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get lastname => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegisterStateCopyWith<RegisterState> get copyWith =>
@@ -59,7 +62,8 @@ abstract class $RegisterStateCopyWith<$Res> {
       String verifyemail,
       String password,
       String verifypassword,
-      String name});
+      String name,
+      String lastname});
 }
 
 /// @nodoc
@@ -78,6 +82,7 @@ class _$RegisterStateCopyWithImpl<$Res>
     Object? password = freezed,
     Object? verifypassword = freezed,
     Object? name = freezed,
+    Object? lastname = freezed,
   }) {
     return _then(_value.copyWith(
       email: email == freezed
@@ -100,6 +105,10 @@ class _$RegisterStateCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      lastname: lastname == freezed
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -116,7 +125,8 @@ abstract class _$RegisterStateCopyWith<$Res>
       String verifyemail,
       String password,
       String verifypassword,
-      String name});
+      String name,
+      String lastname});
 }
 
 /// @nodoc
@@ -137,6 +147,7 @@ class __$RegisterStateCopyWithImpl<$Res>
     Object? password = freezed,
     Object? verifypassword = freezed,
     Object? name = freezed,
+    Object? lastname = freezed,
   }) {
     return _then(_RegisterState(
       email: email == freezed
@@ -159,6 +170,10 @@ class __$RegisterStateCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      lastname: lastname == freezed
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -171,7 +186,8 @@ class _$_RegisterState implements _RegisterState {
       this.verifyemail = '',
       this.password = '',
       this.verifypassword = '',
-      this.name = ''});
+      this.name = '',
+      this.lastname = ''});
 
   @JsonKey(defaultValue: '')
   @override
@@ -188,10 +204,13 @@ class _$_RegisterState implements _RegisterState {
   @JsonKey(defaultValue: '')
   @override
   final String name;
+  @JsonKey(defaultValue: '')
+  @override
+  final String lastname;
 
   @override
   String toString() {
-    return 'RegisterState(email: $email, verifyemail: $verifyemail, password: $password, verifypassword: $verifypassword, name: $name)';
+    return 'RegisterState(email: $email, verifyemail: $verifyemail, password: $password, verifypassword: $verifypassword, name: $name, lastname: $lastname)';
   }
 
   @override
@@ -210,7 +229,10 @@ class _$_RegisterState implements _RegisterState {
                 const DeepCollectionEquality()
                     .equals(other.verifypassword, verifypassword)) &&
             (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)));
   }
 
   @override
@@ -220,7 +242,8 @@ class _$_RegisterState implements _RegisterState {
       const DeepCollectionEquality().hash(verifyemail) ^
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(verifypassword) ^
-      const DeepCollectionEquality().hash(name);
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(lastname);
 
   @JsonKey(ignore: true)
   @override
@@ -234,7 +257,8 @@ abstract class _RegisterState implements RegisterState {
       String verifyemail,
       String password,
       String verifypassword,
-      String name}) = _$_RegisterState;
+      String name,
+      String lastname}) = _$_RegisterState;
 
   @override
   String get email => throw _privateConstructorUsedError;
@@ -246,6 +270,8 @@ abstract class _RegisterState implements RegisterState {
   String get verifypassword => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
+  @override
+  String get lastname => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RegisterStateCopyWith<_RegisterState> get copyWith =>

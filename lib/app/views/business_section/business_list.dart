@@ -73,7 +73,7 @@ class _BusinesslistState extends State<Businesslist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           'Tiendas',
@@ -180,7 +180,7 @@ class _BusinesslistState extends State<Businesslist> {
                 height: 5,
               ),
               const Divider(
-                color: Colors.white70,
+                color: Colors.white10,
                 height: 10,
                 thickness: 1,
                 indent: 20,

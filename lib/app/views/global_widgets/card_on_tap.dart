@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -10,7 +8,7 @@ class CardOnTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: _boxDecoration(),
-      height: 100,
+      height: 80,
       child: Row(
         children: <Widget>[_logoPrueba(), _textWrap()],
       ),
@@ -19,17 +17,17 @@ class CardOnTap extends StatelessWidget {
 
   BoxDecoration _boxDecoration() {
     return BoxDecoration(
-      color: Color.fromRGBO(214, 214, 214, 100),
+      color: const Color.fromRGBO(65, 77, 171, 1),
       borderRadius: BorderRadius.circular(10.00),
     );
   }
 
   Widget _logoPrueba() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Image.asset(
         "assets/img/home_tridy.png",
-        width: 70,
+        width: 50,
       ),
     );
   }
@@ -38,7 +36,7 @@ class CardOnTap extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: const <Widget>[
         Text(
           "Tiendas",
           style: TextStyle(

@@ -103,7 +103,7 @@ class _BusinessviewState extends State<Businessview> {
           ),
         ],
       ),
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         actions: [
           Padding(

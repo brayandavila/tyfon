@@ -57,6 +57,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                   autofocus: true,
                   keyboardType: widget.inputType,
                   decoration: InputDecoration(
+                      fillColor: Colors.white,
                       suffixIcon: widget.passwordActive
                           ? CupertinoButton(
                               child: Icon(
@@ -90,9 +91,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
                         state.errorText!,
                         style: const TextStyle(
                             fontFamily: 'Silka Medium',
-                            fontSize: 11,
+                            fontSize: 12,
                             color: Colors.black87),
-                      ))
+                      )),
               ],
             ));
   }

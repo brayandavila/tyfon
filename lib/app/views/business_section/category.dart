@@ -17,7 +17,7 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('Categorías',
             style:

@@ -85,7 +85,7 @@ class _SearchresultState extends State<Searchresult> {
             return DefaultTabController(
                 length: 2,
                 child: Scaffold(
-                    backgroundColor: Colors.white10,
+                    backgroundColor: Colors.black,
                     appBar: PreferredSize(
                       preferredSize: const Size.fromHeight(75),
                       child: AppBar(
@@ -341,7 +341,7 @@ class _SearchresultState extends State<Searchresult> {
                                           height: 5,
                                         ),
                                         const Divider(
-                                          color: Colors.black87,
+                                          color: Colors.white10,
                                           height: 10,
                                           thickness: 1,
                                           indent: 20,

@@ -18,7 +18,7 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

@@ -5,6 +5,12 @@ abstract class AuthentificationRepository {
   Future<void> signOut();
   Future<SignInResponse> signInWithEmailAndPassword(
       String email, String password);
+
+  Future<String?> sendResetPasswordLink(String email);
+  Future<String?> cleanAccountFirebase();
+  Future<String?> generateUserByUid();
+  Future<String?> updateUserByUid();
+  Future<String?> saveOrders(data);
 }
 
 class SignInResponse {

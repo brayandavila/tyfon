@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_meedu/router.dart' as router;
 import 'package:flutter_meedu/state.dart';
 import 'package:tyfon/app/utils/email_validator.dart';
+import 'package:tyfon/app/views/global_controllers/session_controller.dart';
 import 'package:tyfon/app/views/global_widgets/custom_input_field.dart';
 import 'package:tyfon/app/views/login/controller/login_controller.dart';
 import 'package:tyfon/app/views/login/utils/send_login_form.dart';
@@ -13,7 +14,7 @@ import 'package:tyfon/app/views/routes/routes.dart';
 import 'package:flutter_meedu/meedu.dart';
 
 final loginProvider = SimpleProvider(
-  (_) => LoginController(),
+  (_) => LoginController(sessionProvider.read),
 );
 
 class LoginPage extends StatelessWidget {
@@ -27,10 +28,6 @@ class LoginPage extends StatelessWidget {
       builder: (_, controller) {
         return Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
             backgroundColor: const Color(0xFFffffff),
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
@@ -42,7 +39,7 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: height * 0.04),
+                        SizedBox(height: height * 0.1),
                         const Text(
                           "Hola!",
                           style: TextStyle(
@@ -100,7 +97,8 @@ class LoginPage extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: CupertinoButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  router.pushNamed(Routes.FORGOTPASSWORD),
                               child: const Text(
                                 '¿Olvidaste tu contraseña?',
                                 style: TextStyle(
@@ -140,7 +138,8 @@ class LoginPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(5.0)),
                                 side: const BorderSide(
                                     color: Colors.black87, width: 1.3)),
-                            onPressed: () => router.pushNamed(Routes.REGISTER),
+                            onPressed: () =>
+                                router.pushNamed(Routes.REGISTEREMAIL),
                           ),
                         ),
                       ],

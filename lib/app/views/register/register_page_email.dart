@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meedu/state.dart';
 import 'package:tyfon/app/utils/email_validator.dart';
+import 'package:tyfon/app/views/global_controllers/session_controller.dart';
 import 'package:tyfon/app/views/global_widgets/custom_input_field.dart';
 import 'package:tyfon/app/views/register/controller/register_controller.dart';
 import 'package:tyfon/app/views/register/controller/register_state.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_meedu/router.dart' as router;
 import 'package:flutter_meedu/meedu.dart';
 
 final registerProvider = StateProvider<RegisterController, RegisterState>(
-  (_) => RegisterController(),
+  (_) => RegisterController(sessionProvider.read),
 );
 
 class RegisterPageEmail extends StatelessWidget {

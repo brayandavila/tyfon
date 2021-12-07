@@ -1,8 +1,7 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meedu/state.dart';
+import 'package:tyfon/app/views/global_controllers/session_controller.dart';
 import 'package:tyfon/app/views/global_widgets/custom_input_field.dart';
 import 'package:tyfon/app/views/register/controller/register_controller.dart';
 import 'package:tyfon/app/views/register/controller/register_state.dart';
@@ -13,7 +12,7 @@ import 'package:flutter_meedu/router.dart' as router;
 import 'package:flutter_meedu/meedu.dart';
 
 final registerProvider = StateProvider<RegisterController, RegisterState>(
-  (_) => RegisterController(),
+  (_) => RegisterController(sessionProvider.read),
 );
 
 class RegisterPagePassword extends StatelessWidget {
@@ -78,10 +77,10 @@ class RegisterPagePassword extends StatelessWidget {
                           passwordActive: true,
                           validator: (text) {
                             if (text == null) return null;
-                            if (text.trim().length >= 6) {
+                            if (text.trim().length >= 8) {
                               return null;
                             }
-                            return "Contraseña insegura";
+                            return "Tu contraseña debe contener minimo 8 caracteres";
                           },
                         ),
                         SizedBox(
@@ -107,11 +106,9 @@ class RegisterPagePassword extends StatelessWidget {
                                 return "Tu contraseña no coincide";
                               }
 
-                              if (text.trim().length >= 6) {
+                              if (text.trim().length >= 8) {
                                 return null;
                               }
-
-                              return "Contraseña insegura";
                             },
                           );
                         }),

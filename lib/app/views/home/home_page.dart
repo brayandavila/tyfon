@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double widthscreen = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black,
         body: SingleChildScrollView(
       child: Column(
         children: [
@@ -409,7 +409,7 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Colors.black12,
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color: Colors.white12),
               ),
               child: Column(
                 children: [

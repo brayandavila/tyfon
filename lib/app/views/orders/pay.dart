@@ -15,7 +15,7 @@ class _PayState extends State<Pay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

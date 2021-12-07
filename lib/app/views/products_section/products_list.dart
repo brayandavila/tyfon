@@ -20,7 +20,7 @@ class _ProductslistState extends State<Productslist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           'Productos',

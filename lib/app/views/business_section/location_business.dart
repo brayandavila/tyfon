@@ -42,7 +42,7 @@ class _ForlocationState extends State<Forlocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text('Más cercanos',
           style: TextStyle(color: Colors.white),),
@@ -144,7 +144,7 @@ class _ForlocationState extends State<Forlocation> {
                 height: 5,
               ),
               const Divider(
-                color: Colors.white70,
+                color: Colors.white10,
                 height: 10,
                 thickness: 1,
                 indent: 20,

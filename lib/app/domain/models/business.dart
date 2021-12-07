@@ -16,17 +16,18 @@ class Business {
   String lonBusiness;
 
   Business(
-      this.idBusiness,
-      this.nameBusiness,
-      this.addressBusiness,
-      this.latBusiness,
-      this.landlineBusiness,
-      this.phoneBusiness,
-      this.websiteBusiness,
-      this.categoryBusiness,
-      this.logoBusiness,
-      this.photoBusiness,
-      this.lonBusiness,);
+    this.idBusiness,
+    this.nameBusiness,
+    this.addressBusiness,
+    this.latBusiness,
+    this.landlineBusiness,
+    this.phoneBusiness,
+    this.websiteBusiness,
+    this.categoryBusiness,
+    this.logoBusiness,
+    this.photoBusiness,
+    this.lonBusiness,
+  );
 }
 
 class BusinessSort {
@@ -127,23 +128,25 @@ Future<List<Business>> getBusinessforcategory(cat) async {
   }
 }
 
-Future<List> getBusinessSort() async {  
-  late Position position; 
-var latitud = 0.0;
-var longitud = 0.0;
+Future<List> getBusinessSort() async {
+  late Position position;
+  var latitud = 0.0;
+  var longitud = 0.0;
   final response = await http.get(Uri.parse(url + '&acc=1&tbl=Business'));
-  position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
   List business = [];
   if (response.statusCode == 200) {
     String body = utf8.decode(response.bodyBytes);
     final jsonData = jsonDecode(body);
     for (var item in jsonData["data"]) {
       latitud = position.latitude;
-      longitud = position.longitude;  
+      longitud = position.longitude;
       double lat = item["lat_business"];
       double lon = item["lon_business"];
-      double distanceInMeters = Geolocator.distanceBetween(latitud, longitud, lat, lon); 
-      double distancia = (distanceInMeters/1000);
+      double distanceInMeters =
+          Geolocator.distanceBetween(latitud, longitud, lat, lon);
+      double distancia = (distanceInMeters / 1000);
       business.add(BusinessSort(
         item["id_business"].toString(),
         item["name_business"].toString(),
@@ -157,18 +160,15 @@ var longitud = 0.0;
         item["photo_business"].toString(),
         item["lon_business"].toString(),
         distancia,
-      ));     
+      ));
     }
     business.sort((a, b) {
-    var i2 = a.distanceBusiness.compareTo(b.distanceBusiness);
-    //print(i2);
-    return i2;
+      var i2 = a.distanceBusiness.compareTo(b.distanceBusiness);
+      //print(i2);
+      return i2;
     });
     return business;
   } else {
     throw Exception('Falló al obtener productos');
   }
 }
-
-
-

@@ -35,7 +35,7 @@ class _ProductviewState extends State<Productview> {
       widget.data[5],
     ];
     return Scaffold(
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.black,
         floatingActionButton: Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 0, 10),
           child: Row(

@@ -73,7 +73,7 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           widget.category,
@@ -183,7 +183,7 @@ class _BusinessforcategoryState extends State<Businessforcategory> {
                 height: 5,
               ),              
               const Divider(
-                color: Colors.white70,
+                color: Colors.white10,
                 height: 10,
                 thickness: 1,
                 indent: 20,

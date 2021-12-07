@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meedu/state.dart';
+import 'package:tyfon/app/views/global_controllers/session_controller.dart';
 import 'package:tyfon/app/views/global_widgets/custom_input_field.dart';
 import 'package:tyfon/app/views/register/controller/register_controller.dart';
 import 'package:tyfon/app/views/register/controller/register_state.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_meedu/router.dart' as router;
 import 'package:flutter_meedu/meedu.dart';
 
 final registerProvider = StateProvider<RegisterController, RegisterState>(
-  (_) => RegisterController(),
+  (_) => RegisterController(sessionProvider.read),
 );
 
 class RegisterPageName extends StatelessWidget {
@@ -42,7 +43,7 @@ class RegisterPageName extends StatelessWidget {
                         const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Ponle nombre",
+                            "Cuál es tu",
                             style: TextStyle(
                                 fontFamily: 'Silka Bold',
                                 fontSize: 30,
@@ -52,7 +53,7 @@ class RegisterPageName extends StatelessWidget {
                         const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "a tu negocio",
+                            "primer nombre",
                             style: TextStyle(
                                 fontFamily: 'Silka Bold',
                                 fontSize: 30,
@@ -70,7 +71,7 @@ class RegisterPageName extends StatelessWidget {
                             )),
                         SizedBox(height: height * 0.02),
                         CustomInputField(
-                          hintText: 'Nombre de tu negocio',
+                          hintText: 'Ingresar nombre',
                           onChanged: controller.onNameChanged,
                         ),
                         SizedBox(
@@ -83,7 +84,7 @@ class RegisterPageName extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0)),
                             onPressed: () =>
-                                router.pushNamed(Routes.REGISTERPASSWORD),
+                                router.pushNamed(Routes.REGISTERLASTNAME),
                             child: const Text(
                               'Siguiente',
                               style: TextStyle(
